@@ -14,3 +14,4 @@ console.log(globalThis)
 // mathcing the both it gives true
 
 console.log(globalThis === global)
+  
