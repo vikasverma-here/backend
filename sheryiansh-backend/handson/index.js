@@ -15,10 +15,26 @@ app.get('/',(req,res)=>{
     })
 
 })
-app.get('/create',(req,res)=>{
-   console.log(req.body)
+app.get('/file/:filename',(req,res)=>{
+   fs.readFile(`./files/${req.params.filename}`,"utf-8",(err,filedata)=>{
+    console.log(filedata)
+    res.render('show.ejs',{filename:req.params.filename,filedata:filedata})
+   })
+    
+   
 
 })
+app.post('/create', (req, res) => {
+    const filename = `${req.body.title.split(" ").join('')}.txt`;
+    fs.writeFile(`./files/${filename}`, req.body.details, (err) => {
+        if (err) {
+            console.error("Error creating file:", err);
+            return res.status(500).send("Error creating file");
+        }
+        res.redirect("/");
+    });
+});
+
 
 app.listen(3000,()=>{
     console.log("server stablished.......")
